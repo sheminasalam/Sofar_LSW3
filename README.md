@@ -1,3 +1,98 @@
+# Sofar_LSW3 Installation and Setup Guide
+
+This guide provides step-by-step instructions to install and run the `Sofar_LSW3` repository on a Raspberry Pi 4 running the latest Bookworm OS within a Python virtual environment. It also includes instructions for scheduling the script to run at intervals using cron.
+
+## Steps
+
+### 1. Install necessary system packages
+
+Update the system and install necessary dependencies, including Python3 and virtual environment tools.
+
+```bash
+sudo apt update && sudo apt upgrade
+sudo apt install python3 python3-venv python3-pip git
+```
+
+### 2. Clone the repository
+
+Navigate to your home directory and clone the `Sofar_LSW3` GitHub repository.
+
+```bash
+cd /home/pi
+git clone https://github.com/MichaluxPL/Sofar_LSW3.git
+```
+
+### 3. Create a virtual environment
+
+Navigate to the `Sofar_LSW3` directory and create a Python virtual environment.
+
+```bash
+cd Sofar_LSW3
+python3 -m venv venv
+```
+
+### 4. Activate the virtual environment
+
+Activate the virtual environment before installing dependencies.
+
+```bash
+source venv/bin/activate
+```
+
+### 5. Install required Python packages
+
+Install the necessary dependencies as specified in the `requirements.txt` file.
+
+```bash
+pip install -r requirements.txt
+```
+
+### 6. Test the script
+
+Run the script to make sure everything is working correctly.
+
+```bash
+python InverterData.py
+```
+
+If everything runs fine, the setup is complete.
+
+### 7. Set up the cron job
+
+Now you can add a cron job to run this script at the specified interval. First, exit the virtual environment by typing:
+
+```bash
+deactivate
+```
+
+Then, edit the crontab:
+
+```bash
+crontab -e
+```
+
+Add the following line to run the script every 2 minutes between 6:00 and 19:59:
+
+```bash
+2-59/2 6-19 * * * /home/pi/Sofar_LSW3/venv/bin/python /home/pi/Sofar_LSW3/InverterData.py
+```
+
+### 8. Save and exit the crontab editor
+
+After this setup, the `InverterData.py` script will run as per the defined schedule.
+
+## Optional - Verify Cron Job
+
+You can check if the cron job has been successfully added by typing:
+
+```bash
+crontab -l
+```
+
+This should list the job you just added. The Python virtual environment will ensure that all necessary dependencies are isolated and used correctly when the script is run.
+
+
+
 # SOFAR Inverter + LSW-3/LSE
 Small utility to read data from SOFAR K-TLX inverters through the Solarman (LSW-3/LSE) datalogger. 
 Two scripts to get inverter's statistics and hardware info.
